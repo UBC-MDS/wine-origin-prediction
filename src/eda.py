@@ -37,14 +37,24 @@ def plot_density(data, cols, target, ncols=-1, width=150, height=100):
     >>> data = pd.read_csv('wine.csv')  # Replace 'wine.csv' with your dataset file
     >>> result = plot_density(data, ['alcohol', 'proline'], "class", ncols=1)
     >>> chart #Display chart
-    """
-    unknown_cols = [col for col in cols if col not in data.columns]
-    if len(unknown_cols) > 1:
-        raise InputError(f"Unknown columns: {unknown_cols}. Not found in dataframe columns")
+
+    Notes:
+    Code adapted from https://github.com/ttimbers/breast_cancer_predictor_py
     
+    """
+    if len(data) == 0:
+        raise ValueError(f"Empty Dataframe, cannot plot data")
+
+    unknown_cols = [col for col in cols if col not in data.columns]
+    if len(unknown_cols) > 0:
+        raise KeyError(f"Unknown columns: {unknown_cols}. Not found in dataframe columns")
+
+    if target not in data.columns:
+        raise KeyError(f"Target columns {target} not found in dataframe columns")
+
     # melt for plotting via facets 
     data_melted = data.melt(
-        id_vars=['class'],
+        id_vars=[target],
         var_name='predictor',
         value_name='value'
     ).query("predictor in @cols")
@@ -53,14 +63,14 @@ def plot_density(data, cols, target, ncols=-1, width=150, height=100):
     #Plot the distribution of each feature for each class
     chart = alt.Chart(data_melted, width=width, height=height).transform_density(
         'value',
-        groupby=['class', 'predictor']
+        groupby=[target, 'predictor']
     ).mark_area(opacity=0.7).encode(
         x=alt.X("value:Q"),
         y=alt.Y('density:Q').stack(False),
-        color='class:N'
+        color=f'{target}:N'
     ).facet(
         'predictor:N',
-        columns=4
+        columns=ncols
     ).resolve_scale(
         y='independent'
     )
