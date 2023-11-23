@@ -1,15 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer, make_column_selector
-
-
-# In[2]:
 
 
 def preprocessing(train_data, test_data, output_train_path, output_test_path, variables):
@@ -72,4 +63,3 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
     scaled_test_data.to_csv(output_test_path, index=False)
 
     return scaled_train_data
-
