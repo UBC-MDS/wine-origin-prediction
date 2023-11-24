@@ -10,6 +10,9 @@
 
 -   Yimeng Xia
 
+## Link to the final report (HTML)
+https://ubc-mds.github.io/wine-origin-prediction/docs/report.html
+
 ## Project Summary
 
 This project involves the analysis of a dataset containing chemical information on wines produced in the same region in Italy but originating from three distinct cultivars. The dataset comprises the quantities of 13 constituents present in each type of wines. The objective of this project is to predict wine origin using the provided attributes.
@@ -60,7 +63,7 @@ Please ensure you have the following dependencies installed:
 
 -   pip:
 
-    -   ucimlrepo
+-   ucimlrepo
 
 ## License:
 
