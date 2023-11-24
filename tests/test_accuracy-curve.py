@@ -1,4 +1,3 @@
-# %%
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,7 +6,6 @@ import inspect
 import os
 import sys
 
-#%%
 # the code line below taken from
 # https://github.com/ttimbers/demo-tests-ds-analysis-python/blob/main/tests/test-count_classes.py
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
