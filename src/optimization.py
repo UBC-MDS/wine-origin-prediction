@@ -26,20 +26,35 @@ def optimize_hyperparameter(X_train, y_train, pipe, param_grid, njobs=-1, cv=5,m
 
     Returns:
     -------
-    sklearn.pipeline.Pipeline
-        Fitted pipeline with optimal hyperparameters
+    sklearn.model_selection._search.GridSearchCV
+        Fitted GridSearchCV object
         
     Examples:
     --------
+    >>> import numpy as np
     >>> import pandas as pd
-    >>> data = pd.read_csv('wine.csv')  # Replace 'wine.csv' with your dataset file
-    >>> result = plot_density(data, ['alcohol', 'proline'], "class", ncols=1)
-    >>> chart #Display chart
-
-    Notes:
-    Code adapted from https://github.com/ttimbers/breast_cancer_predictor_py
+    >>> from sklearn.preprocessing import StandardScaler
+    >>> from sklearn.model_selection import GridSearchCV
+    >>> from sklearn.pipeline import make_pipeline
+    >>> from sklearn.linear_model import LogisticRegression
+    >>> param_grid = param_grid = {"logisticregression__C": np.array([0.01,0.1,1,10,100,1000])}
+    >>> pipe_lr = make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000))
+    >>> X_train = pd.DataFrame({'a': [1, 2, 3],'b': [400, 500, 600],'c': [0.007, 0.008, 0.009]})
+    >>> y_train = pd.DataFrame({'Label': ['class1', 'class2', 'class1']})
+    >>> X_test = pd.DataFrame({'a': [4, 5],'b': [700, 800],'c': [0.001, 0.002],})
+    >>> y_test = pd.DataFrame({'Label': ['class2', 'class1']})
+    >>> results = optimize_hyperparameter(X_train, y_train, pipe, param_grid)
     
     """
+    if (type(pipe) != sklearn.pipeline.Pipeline):
+        raise TypeError("pipe must be type sklearn.pipeline.Pipeline")
+    
+    if (type(param_grid) != dict):
+        raise TypeError("param_grid must be type dictionary")
+
+    if (not param_grid):
+        raise ValueError("param_grid must contain hyperparameters to optimize")
+
     grid_search = GridSearchCV(
         pipe, param_grid, n_jobs=njobs, cv=cv, return_train_score=True
     )
