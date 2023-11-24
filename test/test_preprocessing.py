@@ -42,7 +42,7 @@ def test_preprocessing_returns_df():
 def test_preprocessing_expected_cols():
     output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
     expected_cols = ['a', 'b', 'c']
-    assert all(col in scaled_train_data.columns for col in expected_cols)
+    assert all(col in output.columns for col in expected_cols)
 
 # Test for output files are generated
 def test_preprocessing_files_generated():
