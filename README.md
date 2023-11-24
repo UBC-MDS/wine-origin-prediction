@@ -1,66 +1,48 @@
 # Wine Origin Prediction
 
-## Contributors/Authors
+author: Hina Bandukwala, Julia Everitt, Sean McKay & Yimeng Xia
 
--   Hina Bandukwala
-
--   Julia Everitt
-
--   Sean McKay
-
--   Yimeng Xia
+Students of UBC MDS cohort 8
 
 ## Project Summary
 
-This project involves the analysis of a dataset containing chemical information on wines produced in the same region in Italy but originating from three distinct cultivars. The dataset comprises the quantities of 13 constituents present in each type of wines. The objective of this project is to predict wine origin using the provided attributes.
+In this project, we attempt to build a classification model using Logistic Reggression to predict wine origin. Our final classifier performed fairly well on an unseen test data cases, with accuracy rate of 98.15%. Considering the applicability of wine origin prediction, our model can be implemented for business use, providing a faster and more accurate service in classifying wine origin compared to traditional methods that require experts with sufficient knowledge and experience.
+
+This project employs a data set comprising 13 chemical information from 178 Italian wine samples of three distinct cultivars from the same region. Originating in 1991, the data set was collected and contributed by M. Forina and Stefan Aeberhard. This data set is accessible from the UC Irvine Machine Learning Repository and can be found [here](https://archive.ics.uci.edu/dataset/109/wine).
+
+## Report
+
+The final report can be found [here](https://ubc-mds.github.io/wine-origin-prediction/docs/report.html).
 
 ## Data Analysis
 
-To run our data analysis, please follow the following steps:
+Clone the repository and navigate to the project directory.
 
-Step 1: Clone the repository
+First time running this project, please run the following from the root of this repository:
 
-Step 2: Navigate to the project directory
+``` bash
+conda env create --file environment.yaml
+```
 
-Step 3: Install required dependencies
+``` bash
+conda activate wine-origin-prediction
+```
 
-Step 4: Run the analysis script
+Open `src/report.ipynb` in Visual Studio Code and click "Restart".
+
+or
+
+Open `src/report.ipynb` in Jupyter Lab and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
 
 ## Dependencies
 
 Please ensure you have the following dependencies installed:
 
--   python=3.11.\*
+-   `conda` (version 23.9.0 or higher)
 
--   ipykernel
+-   `nb_conda_kernels`
 
--   nb_conda_kernels
-
--   pandas\>=2.1.1
-
--   matplotlib\>=3.2.2
-
--   scikit-learn\>=1.3.1
-
--   requests\>=2.24.0
-
--   ipython
-
--   altair=5.1.2
-
--   vl-convert-python
-
--   vegafusion
-
--   vegafusion-python-embed
-
--   vegafusion-jupyter
-
--   pip\>=23.2.1
-
--   pip:
-
-    -   ucimlrepo
+-   Python and packages listed in `environment.yaml`
 
 ## License:
 
