@@ -30,8 +30,8 @@ variables = pd.DataFrame({
         'type': ['Integer', 'Integer', 'Continuous', 'Categorical']
     })
 
-output_train_path = "./test/scaled_wine_train.csv"
-output_test_path = "./test/scaled_wine_test.csv"
+output_train_path = "./scaled_wine_train.csv"
+output_test_path = "./scaled_wine_test.csv"
 
 # Test for correct return type
 def test_preprocessing_returns_df():
