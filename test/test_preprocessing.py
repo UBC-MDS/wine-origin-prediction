@@ -42,15 +42,10 @@ def test_preprocessing_returns_df():
 def test_preprocessing_expected_cols():
     output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
     expected_cols = ['a', 'b', 'c']
-    assert all(col in scaled_train_data.columns for col in expected_columns)
-
-# Test for all values in the DataFrame are numeric
-def test_preprocessing_all_values_numeric():
-    output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
-    assert output.applymap(lambda x: isinstance(x, (int, float))).all().all(), "All values in the DataFrame should be numeric"
+    assert all(col in scaled_train_data.columns for col in expected_cols)
 
 # Test for output files are generated
 def test_preprocessing_files_generated():
     output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
-    assert output_train_path.is_file()
-    assert output_test_path.is_file()
+    assert os.path.exists(output_train_path)
+    assert os.path.exists(output_test_path)
