@@ -35,17 +35,19 @@ output_test_path = "./scaled_wine_test.csv"
 
 # Test for correct return type
 def test_preprocessing_returns_df():
-    output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
-    assert isinstance(output, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
+    output_train, output_test = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
+    assert isinstance(output_train, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
+    assert isinstance(output_test, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
 
 # Test for expected columns
 def test_preprocessing_expected_cols():
-    output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
+    output_train, output_test = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
     expected_cols = ['a', 'b', 'c']
-    assert all(col in output.columns for col in expected_cols)
+    assert all(col in output_train.columns for col in expected_cols)
+    assert all(col in output_test.columns for col in expected_cols)
 
 # Test for output files are generated
 def test_preprocessing_files_generated():
-    output = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
+    output_train, output_test = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
     assert os.path.exists(output_train_path)
     assert os.path.exists(output_test_path)

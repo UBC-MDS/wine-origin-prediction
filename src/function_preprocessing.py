@@ -24,8 +24,8 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
 
     Returns:
     -------
-        pandas.DataFrame
-            The preprocessed training data
+        pandas.DataFrame, pandas.DataFrame
+            The preprocessed training and test data
 
     Examples:
     --------
