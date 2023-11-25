@@ -34,6 +34,23 @@ or
 
 Open `src/report.ipynb` in Jupyter Lab and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
 
+## Running from docker
+
+Run the following to build and launch a jupyter notebook environment in local.
+
+``` bash
+docker build . --tag <tag_name>
+docker run --rm -it -v /$(pwd):/home/jovyan/work -p 8888:8888 <tag_name>
+```
+
+Then navigate to http://127.0.0.1:8888/lab/ and launch report.ipynb under the src folder
+
+## Running using docker compose
+
+Run `docker compose up` (this will pull the latest tag from dockerhub)
+
+Then navigate to http://127.0.0.1:8888/lab/ and launch report.ipynb under the src folder
+
 ## Dependencies
 
 Please ensure you have the following dependencies installed:
