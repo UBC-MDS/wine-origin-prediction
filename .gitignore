@@ -4,5 +4,6 @@
 # Jupyter Notebook
 **.ipynb_checkpoints
 
-# pycache
+# Byte-compiled files 
 __pycache__/
+*.py[cod]
