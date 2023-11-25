@@ -1,7 +1,7 @@
 services:
   wine-origin-prediction:
-    image: wine-origin-prediction
+    image: seanmck/wine-origin-prediction:f198846
     ports:
       - "8888:8888"
     volumes:
-      - .:home/jovyan/work
+      - .:/home/jovyan/work
