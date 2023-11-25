@@ -1,6 +1,6 @@
 services:
   wine-origin-prediction:
-    image: seanmck/wine-origin-prediction:f198846
+    image: seanmck/wine-origin-prediction:86c1d4a
     ports:
       - "8888:8888"
     volumes:
