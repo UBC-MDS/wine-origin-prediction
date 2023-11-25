@@ -62,4 +62,4 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
     scaled_train_data.to_csv(output_train_path, index=False)
     scaled_test_data.to_csv(output_test_path, index=False)
 
-    return scaled_train_data
+    return scaled_train_data, scaled_test_data
