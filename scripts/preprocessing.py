@@ -3,6 +3,7 @@
 # date: 2023-12-01
 
 import click
+import pickle
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer
@@ -66,6 +67,10 @@ def preprocessing(train_data, test_data, output_file_path, output_preprocessor):
         'scale': preprocessor.named_transformers_['standardscaler'].scale_
     })
     preprocessor_df.to_csv(output_preprocessor, index=False)
+
+    # Save preprocessor model using pickle
+    with open(output_preprocessor, 'wb') as preprocessor_file:
+        pickle.dump(preprocessor, preprocessor_file)
 
 if __name__ == '__main__':
     preprocessing()
