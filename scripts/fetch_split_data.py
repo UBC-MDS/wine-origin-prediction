@@ -4,12 +4,14 @@ import click
 from sklearn.model_selection import train_test_split
 from ucimlrepo import fetch_ucirepo
 
-"""
-Usage: python scripts/fetch_split_data.py --output_path="data/processed" 
-"""
+
 @click.command()
-@click.option('--output_path')
+@click.option('--output-path', help="Path to directory where train and test splits will be saved")
+
 def main(output_path):
+    """
+    Usage: python scripts/fetch_split_data.py --output-path="data/processed" 
+    """
     # fetch dataset 
     data = fetch_ucirepo(id=109) 
 

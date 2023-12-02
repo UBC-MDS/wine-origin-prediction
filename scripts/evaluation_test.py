@@ -1,25 +1,37 @@
 import pandas as pd
 import os
 import click
+import pickle
 
-"""
 
-"""
 @click.command()
-@click.option('--input_path') # path to test.csv 
-@click.option('--pipe') 
-@click.option('--output_path') # output path to save results
-def evaluate(input_path, pipe, output_path):
-    test = pd.read_csv(input_path)
-    X_test = test.drop(columns=['class'])
-    y_test = test['class']
+@click.option('--input-test-path', help="Path to directory where test.csv is located")  
+@click.option('--pipeline-from', help="Path to directory where pickled model lives") 
+@click.option('--target-col', help="Name of target column") 
+@click.option('--results-to', help="Path to directory where test scores will be saved") 
 
-    test_score = pipe.score(X_test,y_test)
-    res = f"Final LR model test accuracy: {round(test_score*100,2)}%"
+def evaluate(input_test_path, pipeline_from, target_col, results_to):
+    """
+    Usage: python --input-test-path=data/processed/test.csv --pipeline-from
+    --target-col=class --results-to=results
+    """
+
+    # Derive X_test and y_test
+    test = pd.read_csv(input_test_path)
+    X_test = test.drop(columns=[target_col])
+    y_test = test[target_col]
+
+    # Load pickled model
+
+    with open(pipeline_from, 'rb') as f:
+        wine_model = pickle.load(f)
+
+
+    accuracy_score = wine_model.score(X_test,y_test)
+    res = f"Final LR model test accuracy: {round(accuracy_score*100,2)}%"
     
-    res_f = open(os.path.join(output_path, "test_results.txt"), "w")
-    res_f.write(res)
-    res_f.close()
+    with open(os.path.join(results_to, "test_results.txt"), "w") as res_f:
+        res_f.write(res)
 
     print(res_f)
     
