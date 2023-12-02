@@ -14,27 +14,9 @@ This project employs a data set comprising 13 chemical information from 178 Ital
 
 The final report can be found [here](https://ubc-mds.github.io/wine-origin-prediction/docs/report.html).
 
-## Data Analysis
+## Setup Option 1 - Running from Docker
 
-Clone the repository and navigate to the project directory.
-
-First time running this project, please run the following from the root of this repository:
-
-``` bash
-conda env create --file environment.yaml
-```
-
-``` bash
-conda activate wine-origin-prediction
-```
-
-Open `src/report.ipynb` in Visual Studio Code and click "Restart".
-
-or
-
-Open `src/report.ipynb` in Jupyter Lab and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
-
-## Running from docker
+Install Docker on your device and clone this Github repository. Navigate to the project directory.
 
 Run the following to build and launch a jupyter notebook environment in local.
 
@@ -45,11 +27,51 @@ docker run --rm -it -v /$(pwd):/home/jovyan/work -p 8888:8888 <tag_name>
 
 Then navigate to http://127.0.0.1:8888/lab/ and launch report.ipynb under the src folder
 
-## Running using docker compose
+OR
 
 Run `docker compose up` (this will pull the latest tag from dockerhub)
 
 Then navigate to http://127.0.0.1:8888/lab/ and launch report.ipynb under the src folder
+
+## Setup Option 2 - Using conda
+
+First time running this project, please run the following from the root of this repository to create the environment:
+
+``` bash
+conda env create --file environment.yaml
+```
+
+``` bash
+conda activate wine-origin-prediction
+```
+
+Open the project folder in Visual Studio Code and click "Restart".
+
+or
+
+Open the project folder in Jupyter Lab and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
+
+
+# Data Analysis
+
+Open the project in the Terminal and navigate to the scripts folder, then run the following commands to run the analysis:
+
+```
+# Fetch data from the web, save, and split
+python scripts/fetch_split_data.py --output-path='data/processed/'
+
+# Preprocess data and save preprocessor object
+python scripts/preprocessing.py --train-data='data/processed/train.csv' --test-data='data/processed/test.csv' --output-file-path='data/processed/' --output-preprocessor='results/models/'
+
+# Perform EDA and save plots
+python scripts/eda.py --input_path='data/processed/scaled_wine_train.csv' --output_figure_path='results/figures/' --plot_width=150 --plot_height=100
+
+# Fit model and optimize hyperparameters
+python scripts/fit_wine_classifier.py --training-data='data/processed/train.csv' --preprocessor='results/models/preprocessor_model.pickle' --pipeline-to='results/models/' --plot-to='results/figures/' --seed=123
+
+# Evaluate model on full train/test set
+python scripts/evaluation_test.py --input-test-path='data/processed/test.csv' --pipeline-from='results/models/wine_pipeline.pickle' --target-col='class' --results-to='results/tables/'
+```
 
 ## Dependencies
 
