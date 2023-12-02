@@ -23,6 +23,6 @@ dependencies:
     - vegafusion-jupyter=1.4.5  # For working with charts > 100,000 graphical objects
     - pip=23.2.1
     - pip:
-        - ucimlrepo=0.0.3
-        - pytest=7.4.3
-        - click=8.1.7
+        - ucimlrepo==0.0.3
+        - pytest==7.4.3
+        - click==8.1.7
