@@ -15,26 +15,7 @@ from sklearn.compose import make_column_transformer
 @click.option('--output-preprocessor', type=click.Path(), help='Path to save the preprocessor model')
 
 def preprocessing(train_data, test_data, output_file_path, output_preprocessor):
-    """
-    Preprocessing the training and test data
-
-    Applies standard scaling to numerical features
-
-    Parameters:
-    ----------
-        train_data : str
-            Path to the training data CSV file
-        test_data : str
-            Path to the test data CSV file
-        output_file_path : List[str]
-            Paths to save the preprocessed data CSV files for training and test data
-        output_preprocessor : str
-            Path to save the preprocessor model
-
-    Returns:
-    -------
-        None
-    """
+    
     # Load data
     train_data = pd.read_csv(train_data)
     test_data = pd.read_csv(test_data)
