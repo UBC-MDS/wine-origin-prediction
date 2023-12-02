@@ -39,7 +39,9 @@ def preprocessing(train_data, test_data, output_file_path, output_preprocessor):
     train_data = pd.read_csv(train_data)
     test_data = pd.read_csv(test_data)
 
-    cols_to_scale = train_data.select_dtypes(include=['float64', 'int64']).columns.to_list()
+    cols_to_scale = ['Alcohol', 'Malicacid', 'Ash', 'Alcalinity_of_ash', 'Magnesium', 
+    'Total_phenols', 'Flavanoids', 'Nonflavanoid_phenols', 'Proanthocyanins',
+    'Color_intensity', 'Hue', '0D280_0D315_of_diluted_wines', 'Proline']
 
     preprocessor = make_column_transformer(
         (StandardScaler(), cols_to_scale),
@@ -62,14 +64,14 @@ def preprocessing(train_data, test_data, output_file_path, output_preprocessor):
 
     # Save preprocessor model
     preprocessor_df = pd.DataFrame.from_dict({
-        'columns': train_data.columns,
+        'columns': cols_to_scale,
         'mean': preprocessor.named_transformers_['standardscaler'].mean_,
         'scale': preprocessor.named_transformers_['standardscaler'].scale_
     })
-    preprocessor_df.to_csv(output_preprocessor, index=False)
+    preprocessor_df.to_csv(output_preprocessor + '.csv', index=False)
 
     # Save preprocessor model using pickle
-    with open(output_preprocessor, 'wb') as preprocessor_file:
+    with open(output_preprocessor + '.pickle', 'wb') as preprocessor_file:
         pickle.dump(preprocessor, preprocessor_file)
 
 if __name__ == '__main__':
