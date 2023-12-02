@@ -4,9 +4,15 @@
 
 import click
 import pickle
+import sys
+import os
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer
+
+# Import the preprocessing function
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.function_preprocessing import preprocessing
 
 @click.command()
 @click.option('--train-data', type=click.Path(exists=True), help='Path to the training data CSV file')
@@ -14,34 +20,28 @@ from sklearn.compose import make_column_transformer
 @click.option('--output-file-path', type=click.Path(), nargs=2, help='Paths to save the preprocessed data CSV files for training and test data')
 @click.option('--output-preprocessor', type=click.Path(), help='Path to save the preprocessor model')
 
-def preprocessing(train_data, test_data, output_file_path, output_preprocessor):
+def main(train_data, test_data, output_file_path, output_preprocessor):
     """
-    Preprocessing the training and test data
-
-    Applies standard scaling to numerical features
+    Main function to run the preprocessing script.
 
     Parameters:
     ----------
         train_data : str
-            Path to the training data CSV file
+            Path to the training data CSV file.
         test_data : str
-            Path to the test data CSV file
-        output_file_path : List[str]
-            Paths to save the preprocessed data CSV files for training and test data
+            Path to the test data CSV file.
+        output_file_path : str
+            Path to save the preprocessed data CSV files for training and test data.
         output_preprocessor : str
-            Path to save the preprocessor model
-
-    Returns:
-    -------
-        None
+            Path to save the preprocessor model.
     """
+
     # Load data
     train_data = pd.read_csv(train_data)
     test_data = pd.read_csv(test_data)
 
-    cols_to_scale = ['Alcohol', 'Malicacid', 'Ash', 'Alcalinity_of_ash', 'Magnesium', 
-    'Total_phenols', 'Flavanoids', 'Nonflavanoid_phenols', 'Proanthocyanins',
-    'Color_intensity', 'Hue', '0D280_0D315_of_diluted_wines', 'Proline']
+    cols_to_scale = ['Alcohol', 'Malicacid', 'Ash', 'Alcalinity_of_ash', 'Magnesium', 'Total_phenols', 'Flavanoids', 
+    'Nonflavanoid_phenols', 'Proanthocyanins','Color_intensity', 'Hue', '0D280_0D315_of_diluted_wines', 'Proline']
 
     preprocessor = make_column_transformer(
         (StandardScaler(), cols_to_scale),
@@ -75,4 +75,4 @@ def preprocessing(train_data, test_data, output_file_path, output_preprocessor):
         pickle.dump(preprocessor, preprocessor_file)
 
 if __name__ == '__main__':
-    preprocessing()
+    main()
