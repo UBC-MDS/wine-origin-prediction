@@ -8,6 +8,7 @@ import sys
 import pickle
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
@@ -63,7 +64,7 @@ def main(training_data, preprocessor, pipeline_to, plot_to, seed):
     cv_scores = lr_fit.cv_results_["mean_test_score"]
     
     plot = accuracy_curve(train_scores, cv_scores, param_grid["logisticregression__C"])
-    plot.save(os.path.join(plot_to, "wine_cv_C.png"))
+    plt.savefig(os.path.join(plot_to, "wine_cv_C.png"))
 
 if __name__ == '__main__':
     main()
