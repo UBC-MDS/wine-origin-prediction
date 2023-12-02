@@ -6,7 +6,7 @@ from ucimlrepo import fetch_ucirepo
 
 
 @click.command()
-@click.option('--output-path', help="Path to directory where train and test splits will be saved")
+@click.option('--output-path', type=str, help="Path to directory where train and test splits will be saved")
 
 def main(output_path):
     """
