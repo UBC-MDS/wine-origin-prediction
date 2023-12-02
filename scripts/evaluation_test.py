@@ -12,7 +12,8 @@ import pickle
 
 def evaluate(input_test_path, pipeline_from, target_col, results_to):
     """
-
+    Usage: python --input-test-path=data/processed/test.csv --pipeline-from
+    --target-col=class --results-to=results
     """
 
     # Derive X_test and y_test
