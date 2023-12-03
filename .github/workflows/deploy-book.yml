@@ -22,7 +22,11 @@ jobs:
 
     - name: Setup Python & Install dependencies
       run: |
-        conda env create -f environment.yaml && conda init && conda activate wine-origin-prediction
+        conda env create -f environment.yaml && conda init
+
+    - name: Activate conda environment
+      run: |
+        conda activate wine-origin-prediction
 
     # Build the book
     - name: Build the book
