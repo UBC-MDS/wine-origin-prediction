@@ -14,6 +14,7 @@ def main(output_path):
     """
     # fetch dataset 
     data = fetch_ucirepo(id=109) 
+    variables = data.variables
 
     #Split into train/test with equal distribution of target classes
     train, test = train_test_split(
@@ -22,8 +23,9 @@ def main(output_path):
     )
 
     #Save split data
-    train.to_csv(os.path.join(output_path, "train.csv"))
-    test.to_csv(os.path.join(output_path,  "test.csv"))
+    train.to_csv(os.path.join(output_path, "train.csv"), index=False)
+    test.to_csv(os.path.join(output_path,  "test.csv"), index=False)
+    variables.to_csv(os.path.join(output_path, "variables.csv"), index=False)
 
 if __name__ in '__main__':
     main()

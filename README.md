@@ -61,7 +61,7 @@ Open the project in the Terminal and navigate to the scripts folder, then run th
 python scripts/fetch_split_data.py --output-path='data/processed/'
 
 # Preprocess data and save preprocessor object
-python scripts/preprocessing.py --train-data='data/processed/train.csv' --test-data='data/processed/test.csv' --output-file-path='data/processed/' --output-preprocessor='results/models/'
+python scripts/preprocessing.py --train-data ./data/processed/train.csv --test-data ./data/processed/test.csv --variable-data ./data/processed/variables.csv --output-file-path ./data/processed/scaled_wine_train.csv ./data/processed/scaled_wine_test.csv --output-preprocessor ./results/models/preprocessor_model --output-metadata-path ./data/processed/preprocessor_model
 
 # Perform EDA and save plots
 python scripts/eda.py --input_path='data/processed/scaled_wine_train.csv' --output_figure_path='results/figures/' --plot_width=150 --plot_height=100
