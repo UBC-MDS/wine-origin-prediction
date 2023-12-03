@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer, make_column_selector
 
 
-def preprocessing(train_data, test_data, output_train_path, output_test_path, variables):
+def preprocessing(train_data, test_data, output_train_path, output_test_path, cols_to_scale):
     """
     Preprocessing the training and test data
 
@@ -19,8 +19,8 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
             File path to save the preprocessed training data
         output_test_path : str 
             File path to save the preprocessed test data
-        variables : pandas.DataFrame
-            Dataframe containing variable information
+        cols_to_scale : List(str)
+            List of columns to scale during preprocessing
 
     Returns:
     -------
@@ -33,7 +33,7 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
     >>> wine_train, wine_test = train_test_split(wine.data.original, train_size=0.70, stratify=wine.data.original['class'])
     >>> wine_train.to_csv("./data/processed/wine_train.csv")
     >>> wine_test.to_csv("./data/processed/wine_test.csv")
-    >>> preprocessing(wine_train, wine_test, "./data/processed/scaled_wine_train.csv", "./data/processed/scaled_wine_test.csv", wine.variables)
+    >>> preprocessing(wine_train, wine_test, "./data/processed/scaled_wine_train.csv", "./data/processed/scaled_wine_test.csv", ["alcohol"])
 
     Notes:
     -----
@@ -41,8 +41,6 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
     >>> scaled_wine_train = pd.read_csv('./data/processed/scaled_wine_train.csv')
     
     """
-    
-    cols_to_scale = variables.query('role == "Feature" and type in ["Continuous", "Integer"]')["name"].to_list()
     
     preprocessor = make_column_transformer(
         (StandardScaler(), cols_to_scale),
@@ -62,4 +60,4 @@ def preprocessing(train_data, test_data, output_train_path, output_test_path, va
     scaled_train_data.to_csv(output_train_path, index=False)
     scaled_test_data.to_csv(output_test_path, index=False)
 
-    return scaled_train_data, scaled_test_data
+    return preprocessor

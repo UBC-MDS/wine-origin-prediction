@@ -17,10 +17,12 @@ from src.function_preprocessing import preprocessing
 @click.command()
 @click.option('--train-data', type=click.Path(exists=True), help='Path to the training data CSV file')
 @click.option('--test-data', type=click.Path(exists=True), help='Path to the test data CSV file')
+@click.option('--variable-data', type=click.Path(exists=True), help='Path to the CSV file with information on the input variables')
 @click.option('--output-file-path', type=click.Path(), nargs=2, help='Paths to save the preprocessed data CSV files for training and test data')
+@click.option('--output-metadata-path', type=click.Path(), help='Paths to save CSV with metadata about the preprocessing done')
 @click.option('--output-preprocessor', type=click.Path(), help='Path to save the preprocessor model')
 
-def main(train_data, test_data, output_file_path, output_preprocessor):
+def main(train_data, test_data, variable_data, output_file_path, output_metadata_path, output_preprocessor):
     """
     Main function to run the preprocessing script.
 
@@ -39,36 +41,19 @@ def main(train_data, test_data, output_file_path, output_preprocessor):
     # Load data
     train_data = pd.read_csv(train_data)
     test_data = pd.read_csv(test_data)
+    variable_data = pd.read_csv(variable_data)
 
-    cols_to_scale = ['Alcohol', 'Malicacid', 'Ash', 'Alcalinity_of_ash', 'Magnesium', 'Total_phenols', 'Flavanoids', 
-    'Nonflavanoid_phenols', 'Proanthocyanins','Color_intensity', 'Hue', '0D280_0D315_of_diluted_wines', 'Proline']
+    cols_to_scale = variable_data.query('role == "Feature" and type in ["Continuous", "Integer"]')["name"].to_list()
 
-    preprocessor = make_column_transformer(
-        (StandardScaler(), cols_to_scale),
-        remainder='passthrough'
-    )
+    preprocessor = preprocessing(train_data, test_data, output_file_path[0], output_file_path[1], cols_to_scale)
 
-    preprocessor.fit(train_data)
-    preprocessor.set_output(transform='pandas')
-
-    scaled_train_data = preprocessor.transform(train_data)
-    scaled_test_data = preprocessor.transform(test_data)
-
-    # Remove prefix added by column transformer
-    scaled_train_data.columns = [col.split('__')[1] for col in scaled_train_data.columns]
-    scaled_test_data.columns = [col.split('__')[1] for col in scaled_test_data.columns]
-
-    # Save preprocessed data to separate files for training and test data
-    scaled_train_data.to_csv(output_file_path[0], index=False)
-    scaled_test_data.to_csv(output_file_path[1], index=False)
-
-    # Save preprocessor model
+    # Save metadata about the preprocessing done
     preprocessor_df = pd.DataFrame.from_dict({
         'columns': cols_to_scale,
         'mean': preprocessor.named_transformers_['standardscaler'].mean_,
         'scale': preprocessor.named_transformers_['standardscaler'].scale_
     })
-    preprocessor_df.to_csv(output_preprocessor + '.csv', index=False)
+    preprocessor_df.to_csv(output_metadata_path + '.csv', index=False)
 
     # Save preprocessor model using pickle
     with open(output_preprocessor + '.pickle', 'wb') as preprocessor_file:
