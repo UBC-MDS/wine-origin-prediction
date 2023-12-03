@@ -21,6 +21,7 @@ dependencies:
     - vegafusion=1.4.5  # For working with charts > 5,000 graphical objects
     - vegafusion-python-embed=1.4.5  # Same as the previous one
     - vegafusion-jupyter=1.4.5  # For working with charts > 100,000 graphical objects
+    - jupyter-book=0.15.1
     - pip=23.2.1
     - pip:
         - ucimlrepo==0.0.3
