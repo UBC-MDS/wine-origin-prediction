@@ -12,7 +12,7 @@ Usage: python scripts/eda.py --input_path="data/processed/scaled_train_data.csv"
 @click.option('--input_path', type=click.Path(exists=True), help='Path to the processed data for plotting')
 @click.option('--output_figure_path', type=click.Path(), help="Path to save the EDA Density plot to")
 @click.option('--plot_width', type=int, help="Width of each density plot", default=150)
-@click.option('--plot_height', type=int, help="Height of each density plot" default=100)
+@click.option('--plot_height', type=int, help="Height of each density plot", default=100)
 def main(input_path, output_figure_path, plot_width, plot_height):
     TARGET = "class"
     N_COLS = 4
