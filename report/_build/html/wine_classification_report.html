@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction &#8212; Determining the origin of wine using physiochemical properties</title>
+    <title>Determining the origin of wine using physiochemical properties &#8212; Determining the origin of wine using physiochemical properties</title>
   
   
   
@@ -156,7 +156,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Introduction
+                    Determining the origin of wine using physiochemical properties
                 </a>
             </li>
         </ul>
@@ -297,7 +297,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction</h1>
+    <h1>Determining the origin of wine using physiochemical properties</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -307,9 +307,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Determining the origin of wine using physiochemical properties</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-discussion">Results and Discussion</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
@@ -324,35 +331,126 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="determining-the-origin-of-wine-using-physiochemical-properties">
+<h1>Determining the origin of wine using physiochemical properties<a class="headerlink" href="#determining-the-origin-of-wine-using-physiochemical-properties" title="Permalink to this heading">#</a></h1>
+<p>by Hina Bandukwala, Yimeng Xia, Sean McKay, Julia Everitt 2023/12/02</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">pickle</span> 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="kn">import</span> <span class="n">InconsistentVersionWarning</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">InconsistentVersionWarning</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#with open(&#39;../results/models/wine_pipeline.pickle&#39;, &#39;rb&#39;) as model:</span>
-<span class="c1">#    wine_model = pickle.load(model)</span>
-<span class="c1">#glue(&quot;best_C&quot;, wine_model.best_params_[&quot;logisticregression__C&quot;], display=False)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Attribution: Code adapted from </span>
+<span class="c1">#https://github.com/ttimbers/breast_cancer_predictor_py/blob/main/report/</span>
+<span class="c1">#breast_cancer_predictor_report.ipynb</span>
+
+<span class="n">test_scores_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../results/tables/test_results.csv&quot;</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">test_scores_df</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">test_scores_df</span><span class="p">[</span><span class="s1">&#39;F1 score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">test_scores_df</span> <span class="o">=</span> <span class="n">test_scores_df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">()</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;test_scores_df&quot;</span><span class="p">,</span> <span class="n">test_scores_df</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../results/models/wine_pipeline.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">wine_model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;best_C&quot;</span><span class="p">,</span> <span class="n">wine_model</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s2">&quot;logisticregression__C&quot;</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;train_score&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">wine_model</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s2">&quot;mean_train_score&quot;</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;valid_score&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">wine_model</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">[</span><span class="s2">&quot;mean_test_score&quot;</span><span class="p">]),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h1>
+<p>With this project, we attempted to build a classification model as a proof-of-concept for how logistic regression can be used for classifying wine samples based on their origin using their physiochemical characteristics. We built our classifier using a simple dataset that summarizes 13 physiochemical properties per wine sample along with it’s corresponding class based on it’s origin/cultivar. Since we are using a “perfect” dataset, our final classifer performed very well on the unseen test wine samples with an accuracy score of <span class="pasted-text">1.0</span> and a F1 score of <span class="pasted-text">1.0</span>.</p>
+<p>With this project, we intend to showcase that this methodology has potential of streamlining wine identification processes for the benefit of the industry. Since this model is intended as a proof-of-concept, it can be improved significantly by considering other important physiochemical properties and modern techniques for feature selection. The model can also be refined with further testing with larger and more complex datasets.</p>
+</section>
 <section class="tex2jax_ignore mathjax_ignore" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>With increased globalization, wine is consumed across a wider range of nations making wine trade an important part of the global economy (Orlandi, F. et al, 2015). For example, in 2021 wine exports increased by an average of 15% since 2017 reaching a global total of $40.7 billion (Jain, K. et al, 2023). Italy is one of the top 5 exporters of wine and together these countries contribute to 70.4% of the total wine exported globally (Jain, K. et al, 2023). As wine consumption becomes integrated into more cultures, there is an increased need for faster and efficient methods for wine certification, identication as well as quality evaluation. Our project focuses on one of those, namely, wine identification.</p>
-<p>Identification of the wine cultivar (e.g. ‘Chardonnay’ and ‘Merlot’) is an important element of consuming and selling wine (Ohana-Levi, N. et al, 2023). Traditional methods rely heavily on the knowledge and experience of indivdual experts which makes the process inherently subjective and labour-intensive. In this project, we aim to use a machine learning algorithm to identify the cultivar of Italian wines using 13 different physiochemical properties instead. This method takes advantage of the dense knowledge-base that exists about the important physiochemical properties of wine. It then utilizes quantitative measurements corresponding to these properties along with machine learning to systematically identify wine cultivars. Given that the wine industry has carved itself a name in global trade, it is crucial to develop and apply cutting-edge methods that can make these processes more accurate, less labour-intensive and cost-efficient. We think that this data-driven approach could be highly beneficial to the wine industry due to the benefits highlighted above.</p>
+<p>With increased globalization, wine is consumed across a wider range of nations making wine trade an important part of the global economy <span id="id1">[<a class="reference internal" href="#id21" title="Fabio Orlandi, Bonofiglio Tommaso, F. Aguilera, and M. Fornaciari. Phenological characteristics of different winegrape cultivars in central italy. Vitis - Journal of Grapevine Research, 54:129-136, 01 2015.">Orlandi <em>et al.</em>, 2015</a>]</span>. For example, in 2021 wine exports increased by an average of 15% since 2017 reaching a global total of $40.7 billion<span id="id2">[<a class="reference internal" href="#id18" title="Khushboo Jain, Keshav Kaushik, Sachin Kumar Gupta, Shubham Mahajan, and Seifedine Kadry. Machine learning-based predictive modelling for the enhancement of wine quality. Scientific Reports, 13(1):17042, October 2023. Number: 1 Publisher: Nature Publishing Group. URL: https://www.nature.com/articles/s41598-023-44111-9 (visited on 2023-12-02), doi:10.1038/s41598-023-44111-9.">Jain <em>et al.</em>, 2023</a>]</span>. Italy is one of the top 5 exporters of wine and together these countries contribute to 70.4% of the total wine exported globally<span id="id3">[<a class="reference internal" href="#id18" title="Khushboo Jain, Keshav Kaushik, Sachin Kumar Gupta, Shubham Mahajan, and Seifedine Kadry. Machine learning-based predictive modelling for the enhancement of wine quality. Scientific Reports, 13(1):17042, October 2023. Number: 1 Publisher: Nature Publishing Group. URL: https://www.nature.com/articles/s41598-023-44111-9 (visited on 2023-12-02), doi:10.1038/s41598-023-44111-9.">Jain <em>et al.</em>, 2023</a>]</span>. As wine consumption becomes integrated into more cultures, there is an increased need for faster and efficient methods for wine certification, identication as well as quality evaluation. Our project focuses on one of those, namely, wine identification.</p>
+<p>Identification of the wine cultivar (e.g. ‘Chardonnay’ and ‘Merlot’) is an important element of consuming and selling wine<span id="id4">[<a class="reference internal" href="#id20" title="Noa Ohana-Levi and Yishai Netzer. Long-Term Trends of Global Wine Market. Agriculture, 13(1):224, January 2023. Number: 1 Publisher: Multidisciplinary Digital Publishing Institute. URL: https://www.mdpi.com/2077-0472/13/1/224 (visited on 2023-12-02), doi:10.3390/agriculture13010224.">Ohana-Levi and Netzer, 2023</a>]</span>. Traditional methods rely heavily on the knowledge and experience of indivdual experts which makes the process inherently subjective and labour-intensive. In this project, we aim to use a machine learning algorithm to identify the cultivar of Italian wines using 13 different physiochemical properties instead. This method takes advantage of the dense knowledge-base that exists about the important physiochemical properties of wine. It then utilizes quantitative measurements corresponding to these properties along with machine learning to systematically identify wine cultivars. Given that the wine industry has carved itself a name in global trade, it is crucial to develop and apply cutting-edge methods that can make these processes more accurate, less labour-intensive and cost-efficient. We think that this data-driven approach could be highly beneficial to the wine industry due to the benefits highlighted above.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="methods">
 <h1>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h1>
 <section id="data">
 <h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h2>
-<p>We are using a multivariate dataset for this project that combines 13 physiochemical properties for 178 Italian wine samples. These samples correspond to 3 distinct cultivars from the same geographical location. The data was originally collected by M.Forina et al (Forina, M. et al, PARVUS - An Extendible Package for Data Exploration, Classification and Correlation. Institute of Pharmaceutical and Food Analysis and Technologies, Via Brigata Salerno, 16147 Genoa, Italy.) and contributed to the UC Irvine Machine Learning Repository by Stefan Aeberhard and M. Forina in 1992 (last updated on Aug 28 2023). Details associated with the dataset can be found in the UC Irvine repository (<a class="reference external" href="https://archive.ics.uci.edu/dataset/109/wine">https://archive.ics.uci.edu/dataset/109/wine</a>) and the data can be read directly from here (<a class="reference external" href="https://archive.ics.uci.edu/static/public/109/data.csv">https://archive.ics.uci.edu/static/public/109/data.csv</a>). Each row of the dataset corresponds to one wine sample and contains measurements corresponding to each of the 13 physiochemical components. Identification and quantification of the different chemical constituents and properties of the wine was based on chromatographic profiles obtained through mass spectrometry(Ballabio, D. et al). This collection and experimentation was performed by Ballabio, D. et al.</p>
+<p>We are using a multivariate dataset for this project that combines 13 physiochemical properties for 178 Italian wine samples. These samples correspond to 3 distinct cultivars from the same geographical location. The data was originally collected by M.Forina et al <span id="id5">[<a class="reference internal" href="#id17" title="Michele Forina, Riccardo Leardi, Armanino C, and Sergio Lanteri. PARVUS: An Extendable Package of Programs for Data Exploration. Elsevier, January 1998. ISBN 978-0-444-43012-0.">Forina <em>et al.</em>, 1998</a>]</span> and contributed to the UC Irvine Machine Learning Repository by Stefan Aeberhard and M. Forina in 1992 (last updated on Aug 28 2023). Details associated with the dataset can be found in the UC Irvine repository (<a class="reference external" href="https://archive.ics.uci.edu/dataset/109/wine">https://archive.ics.uci.edu/dataset/109/wine</a>) and the data can be read directly from here (<a class="reference external" href="https://archive.ics.uci.edu/static/public/109/data.csv">https://archive.ics.uci.edu/static/public/109/data.csv</a>). Each row of the dataset corresponds to one wine sample and contains measurements corresponding to each of the 13 physiochemical components. Identification and quantification of the different chemical constituents and properties of the wine was based on chromatographic profiles obtained through mass spectrometry<span id="id6">[<a class="reference internal" href="#id14" title="Davide Ballabio, Thomas Skov, Riccardo Leardi, and Rasmus Bro. Classification of GC-MS measurements of wines by combining data dimension reduction and variable selection techniques. Journal of Chemometrics, 22(8):457–463, 2008. _eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/cem.1173. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/cem.1173 (visited on 2023-12-02), doi:10.1002/cem.1173.">Ballabio <em>et al.</em>, 2008</a>]</span>. This collection and experimentation was performed by Ballabio, D. et al.</p>
+</section>
+<section id="analysis">
+<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this heading">#</a></h2>
+<p>For our classification task, we used the logistic regression (LR) algorithm to develop a model that categorizes wine samples into one of three cultivar types based on their origin. These targets can be found in the class column of our dataset. All physiochemical features included in our dataset were used for classification. As a benchmark, we employed scikit-learn’s DummyClassifer as our baseline model which resulted in a 40.33% accuracy with our training dataset. For the LR model, a grid search for the C hyperparameter was performed for values ranging from 0.01 to 1000. The optimal value of <span class="pasted-text">1.0</span> was used to perform a 5-fold cross-validation and resulted in a accuracy of <span class="pasted-text">0.9995508901758902</span> with our training set and <span class="pasted-text">0.9974358974358974</span> with our validation set. We primarily used the Python programming language for our analysis. In particular, the following packages were used: NumPy<span id="id7">[<a class="reference internal" href="#id15" title="Charles R. Harris, K. Jarrod Millman, Stéfan J. van der Walt, Ralf Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, Julian Taylor, Sebastian Berg, Nathaniel J. Smith, Robert Kern, Matti Picus, Stephan Hoyer, Marten H. van Kerkwijk, Matthew Brett, Allan Haldane, Jaime Fernández del Río, Mark Wiebe, Pearu Peterson, Pierre Gérard-Marchant, Kevin Sheppard, Tyler Reddy, Warren Weckesser, Hameer Abbasi, Christoph Gohlke, and Travis E. Oliphant. Array programming with NumPy. Nature, 585(7825):357–362, September 2020. Number: 7825 Publisher: Nature Publishing Group. URL: https://www.nature.com/articles/s41586-020-2649-2 (visited on 2023-12-02), doi:10.1038/s41586-020-2649-2.">Harris <em>et al.</em>, 2020</a>]</span>, Pandas<span id="id8">[<a class="reference internal" href="#id25" title="Wes McKinney. Data Structures for Statistical Computing in Python. In Stéfan van der Walt and Jarrod Millman, editors, Proceedings of the 9th Python in Science Conference, 56 - 61. 2010. doi:10.25080/Majora-92bf1922-00a.">Wes McKinney, 2010</a>]</span>, Altair<span id="id9">[<a class="reference internal" href="#id24" title="Jacob VanderPlas, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben Welsh, and Scott Sievert. Altair: interactive statistical visualizations for python. Journal of Open Source Software, 3(32):1057, 2018. URL: https://doi.org/10.21105/joss.01057, doi:10.21105/joss.01057.">VanderPlas <em>et al.</em>, 2018</a>]</span>, Matplotlib <span id="id10">[<a class="reference internal" href="#id16" title="J. D. Hunter. Matplotlib: a 2d graphics environment. Computing in Science &amp; Engineering, 9(3):90–95, 2007. doi:10.1109/MCSE.2007.55.">Hunter, 2007</a>]</span>, scikit-learn<span id="id11">[<a class="reference internal" href="#id23" title="F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos, D. Cournapeau, M. Brucher, M. Perrot, and E. Duchesnay. Scikit-learn: machine learning in Python. Journal of Machine Learning Research, 12:2825–2830, 2011.">Pedregosa <em>et al.</em>, 2011</a>]</span>, and ucimlrepo <span id="id12">[<a class="reference internal" href="#id19" title="Stefan Aeberhard and M. Forina. Wine. UCI Machine Learning Repository, 1991. DOI: https://doi.org/10.24432/C5PC7J.">Aeberhard and Forina, 1991</a>]</span>.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="results-and-discussion">
+<h1>Results and Discussion<a class="headerlink" href="#results-and-discussion" title="Permalink to this heading">#</a></h1>
+<p>For our data analysis, we first split the data into train and test sets with an equal distribution of target classes in each set to ensure the model generalizes well. The train-test split was done before any further data analysis and scaling to avoid information leakage. All of the features in the dataset are numerical, so we applied the standard scaler to all of them to ensure they take on the same range of values.</p>
+<p>Next we looked at the distribution of values for each numerical feature for each of the three target classes. We can see that the density curves overlap, but still show different shapes and mean values, with some exhitibiting bimodal distributions. The least predictive features look to be Magnesium and Ash as there is significant overlap between the 3 class distributions. We decided to keep all of the features to use in our model, as those features may still be more predictive when combined with other features.</p>
+<p><img alt="Density plots per class of wine for the 13 physiochemical properties included in the dataset" src="_images/densities_plot_by_class.png" /></p>
+<p>In terms of the model performance and its applicability to wine origin prediction, our current logistic regression model performs quite well with a high test accuracy rate of 98.15%. To further improve the classification accuracy, we may explore other models such as Support Vector Machines (SVM) and Random Forest to assess if they offer improved test accuracy. <br>
+In addition, diversifying our evaluation metrics can provide a more comprehensive understanding of our model’s performance. Metrics such as precision, recall, F1-score are good choices for imblanced class. According to our baseline model, the accuracy is of 40.33%, indicates that the most prevalent class occurs at a rate of 40%. This suggests a class imbalance (as we have three classes), prompting a closer examination of class distribution during EDA.</p>
+<p>#<img alt="Accuracy scores for training and validation sets during hyperparameter optimization" src="_images/wine_cv_C.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">glue</span><span class="p">:</span><span class="n">figure</span><span class="p">}</span>
+<span class="p">:</span><span class="n">figwidth</span><span class="p">:</span> <span class="mi">400</span><span class="n">px</span>
+<span class="p">:</span><span class="n">name</span><span class="p">:</span> <span class="s2">&quot;test_scores_df&quot;</span>
+
+<span class="n">Accuracy</span> <span class="ow">and</span> <span class="n">F1</span> <span class="n">scores</span> <span class="n">to</span> <span class="n">evaluate</span> <span class="n">model</span> <span class="n">performance</span> <span class="n">on</span> <span class="n">test</span> <span class="n">data</span>
+</pre></div>
+</div>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id13">
+<dl class="citation">
+<dt class="label" id="id19"><span class="brackets"><a class="fn-backref" href="#id12">AF91</a></span></dt>
+<dd><p>Stefan Aeberhard and M. Forina. Wine. UCI Machine Learning Repository, 1991. DOI: https://doi.org/10.24432/C5PC7J.</p>
+</dd>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id6">BSLB08</a></span></dt>
+<dd><p>Davide Ballabio, Thomas Skov, Riccardo Leardi, and Rasmus Bro. Classification of GC-MS measurements of wines by combining data dimension reduction and variable selection techniques. <em>Journal of Chemometrics</em>, 22(8):457–463, 2008. _eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/cem.1173. URL: <a class="reference external" href="https://onlinelibrary.wiley.com/doi/abs/10.1002/cem.1173">https://onlinelibrary.wiley.com/doi/abs/10.1002/cem.1173</a> (visited on 2023-12-02), <a class="reference external" href="https://doi.org/10.1002/cem.1173">doi:10.1002/cem.1173</a>.</p>
+</dd>
+<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id5">FLCL98</a></span></dt>
+<dd><p>Michele Forina, Riccardo Leardi, Armanino C, and Sergio Lanteri. <em>PARVUS: An Extendable Package of Programs for Data Exploration</em>. Elsevier, January 1998. ISBN 978-0-444-43012-0.</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id7">HMvdW+20</a></span></dt>
+<dd><p>Charles R. Harris, K. Jarrod Millman, Stéfan J. van der Walt, Ralf Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, Julian Taylor, Sebastian Berg, Nathaniel J. Smith, Robert Kern, Matti Picus, Stephan Hoyer, Marten H. van Kerkwijk, Matthew Brett, Allan Haldane, Jaime Fernández del Río, Mark Wiebe, Pearu Peterson, Pierre Gérard-Marchant, Kevin Sheppard, Tyler Reddy, Warren Weckesser, Hameer Abbasi, Christoph Gohlke, and Travis E. Oliphant. Array programming with NumPy. <em>Nature</em>, 585(7825):357–362, September 2020. Number: 7825 Publisher: Nature Publishing Group. URL: <a class="reference external" href="https://www.nature.com/articles/s41586-020-2649-2">https://www.nature.com/articles/s41586-020-2649-2</a> (visited on 2023-12-02), <a class="reference external" href="https://doi.org/10.1038/s41586-020-2649-2">doi:10.1038/s41586-020-2649-2</a>.</p>
+</dd>
+<dt class="label" id="id16"><span class="brackets"><a class="fn-backref" href="#id10">Hun07</a></span></dt>
+<dd><p>J. D. Hunter. Matplotlib: a 2d graphics environment. <em>Computing in Science &amp; Engineering</em>, 9(3):90–95, 2007. <a class="reference external" href="https://doi.org/10.1109/MCSE.2007.55">doi:10.1109/MCSE.2007.55</a>.</p>
+</dd>
+<dt class="label" id="id18"><span class="brackets">JKG+23</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Khushboo Jain, Keshav Kaushik, Sachin Kumar Gupta, Shubham Mahajan, and Seifedine Kadry. Machine learning-based predictive modelling for the enhancement of wine quality. <em>Scientific Reports</em>, 13(1):17042, October 2023. Number: 1 Publisher: Nature Publishing Group. URL: <a class="reference external" href="https://www.nature.com/articles/s41598-023-44111-9">https://www.nature.com/articles/s41598-023-44111-9</a> (visited on 2023-12-02), <a class="reference external" href="https://doi.org/10.1038/s41598-023-44111-9">doi:10.1038/s41598-023-44111-9</a>.</p>
+</dd>
+<dt class="label" id="id20"><span class="brackets"><a class="fn-backref" href="#id4">OLN23</a></span></dt>
+<dd><p>Noa Ohana-Levi and Yishai Netzer. Long-Term Trends of Global Wine Market. <em>Agriculture</em>, 13(1):224, January 2023. Number: 1 Publisher: Multidisciplinary Digital Publishing Institute. URL: <a class="reference external" href="https://www.mdpi.com/2077-0472/13/1/224">https://www.mdpi.com/2077-0472/13/1/224</a> (visited on 2023-12-02), <a class="reference external" href="https://doi.org/10.3390/agriculture13010224">doi:10.3390/agriculture13010224</a>.</p>
+</dd>
+<dt class="label" id="id21"><span class="brackets"><a class="fn-backref" href="#id1">OTAF15</a></span></dt>
+<dd><p>Fabio Orlandi, Bonofiglio Tommaso, F. Aguilera, and M. Fornaciari. Phenological characteristics of different winegrape cultivars in central italy. <em>Vitis - Journal of Grapevine Research</em>, 54:129–136, 01 2015.</p>
+</dd>
+<dt class="label" id="id23"><span class="brackets"><a class="fn-backref" href="#id11">PVG+11</a></span></dt>
+<dd><p>F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos, D. Cournapeau, M. Brucher, M. Perrot, and E. Duchesnay. Scikit-learn: machine learning in Python. <em>Journal of Machine Learning Research</em>, 12:2825–2830, 2011.</p>
+</dd>
+<dt class="label" id="id24"><span class="brackets"><a class="fn-backref" href="#id9">VGH+18</a></span></dt>
+<dd><p>Jacob VanderPlas, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben Welsh, and Scott Sievert. Altair: interactive statistical visualizations for python. <em>Journal of Open Source Software</em>, 3(32):1057, 2018. URL: <a class="reference external" href="https://doi.org/10.21105/joss.01057">https://doi.org/10.21105/joss.01057</a>, <a class="reference external" href="https://doi.org/10.21105/joss.01057">doi:10.21105/joss.01057</a>.</p>
+</dd>
+<dt class="label" id="id25"><span class="brackets"><a class="fn-backref" href="#id8">WesMcKinney10</a></span></dt>
+<dd><p>Wes McKinney. Data Structures for Statistical Computing in Python. In Stéfan van der Walt and Jarrod Millman, editors, <em>Proceedings of the 9th Python in Science Conference</em>, 56 – 61. 2010. <a class="reference external" href="https://doi.org/10.25080/Majora-92bf1922-00a">doi:10.25080/Majora-92bf1922-00a</a>.</p>
+</dd>
+</dl>
+</div>
 </section>
 </section>
 
@@ -401,9 +499,16 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Determining the origin of wine using physiochemical properties</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-discussion">Results and Discussion</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
