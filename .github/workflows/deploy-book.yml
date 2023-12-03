@@ -15,20 +15,23 @@ on:
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
-  deploy-book:
-    runs-on: ubuntu-latest
+  default-shell:
+    name: Default shell
+    runs-on: "ubuntu-latest"
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - uses: conda-incubator/setup-miniconda@v2
+    - uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: wine-origin-prediction
         environment-file: environment.yaml
-        auto-activate-base: false
     - run: |
         conda info
         conda list 
-        
+
     # Build the book
     - name: Build the book
       run: |
