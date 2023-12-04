@@ -12,7 +12,7 @@ This project employs a data set comprising 13 chemical information from 178 Ital
 
 ## Report
 
-The final report can be found [here](https://ubc-mds.github.io/wine-origin-prediction/docs/report.html).
+The final report can be found [here](https://ubc-mds.github.io/wine-origin-prediction/wine_classification_report.html).
 
 ## Setup Option 1 - Running from Docker
 
