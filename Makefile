@@ -1,19 +1,20 @@
 all: report/_build/html/index.html
 
 # Fetch data from the web, save, and split
-data/processed/train.csv data/processed/test.csv : scripts/fetch_split_data.py
+data/processed/train.csv data/processed/test.csv data/raw/variables.csv data/raw/raw.csv : scripts/fetch_split_data.py
 	python scripts/fetch_split_data.py \
-	--output-path='data/processed/'
+	--output-processed-path='data/processed/' \
+	--output-raw-path='data/raw/'
 
 # Preprocess data and save preprocessor object
 data/processed/scaled_wine_train.csv data/processed/scaled_wine_test.csv results/models/preprocessor_model.pickle : scripts/preprocessing.py \
 data/processed/train.csv \
 data/processed/test.csv \
-data/processed/variables.csv
+data/raw/variables.csv
 	python scripts/preprocessing.py \
 	--train-data ./data/processed/train.csv \
 	--test-data ./data/processed/test.csv \
-	--variable-data ./data/processed/variables.csv \
+	--variable-data ./data/raw/variables.csv \
 	--output-file-path ./data/processed/scaled_wine_train.csv ./data/processed/scaled_wine_test.csv \
 	--output-preprocessor ./results/models/preprocessor_model \
 	--output-metadata-path ./data/processed/preprocessor_model
