@@ -53,17 +53,17 @@ report/_build/html/index.html : report/wine_classification_report.ipynb \
 report/_toc.yml \
 report/_config.yml \
 results/tables/test_results.csv \
-results/figures/densities_plot_by_class.png
+results/figures/densities_plot_by_class.png \
+results/figures/wine_cv_C.png
 	jupyter-book build report
 
 clean:
 	rm -f data/processed/train.csv data/processed/test.csv
 	rm -f results/figures/densities_plot_by_class.png
-	rm -f data/processed/scaled_wine_train.csv data/processed/scaled_wine_test.csv 
+	rm -f data/processed/scaled_wine_train.csv data/processed/scaled_wine_test.csv
 	rm -f data/processed/preprocessor_model.csv
 	rm -f results/models/preprocessor_model.pickle
-	rm -f data/processed/variables.csv 
-	rm -f data/processed/preprocessor_model
+	rm -f data/processed/variables.csv
 	rm -f results/models/wine_pipeline.pickle results/figures/wine_cv_C.png
 	rm -r results/tables/test_results.csv
 	rm -rf report/_build
