@@ -54,6 +54,12 @@ def optimize_hyperparameter(X_train, y_train, pipe,
     >>> results = optimize_hyperparameter(X_train, y_train, pipe, param_grid)
     
     """
+    if (len(X_train) == 0 | len(y_train) == 0):
+        raise ValueError(f"Empty Dataframe, cannot optimize model")
+    
+    if (len(X_train) < 5 | len(y_train) < 5):
+        raise ValueError(f"Dataset too small, cannot perform cross validation")
+    
     if (not isinstance(pipe, Pipeline)):
         raise TypeError("pipe must be type sklearn.pipeline.Pipeline")
     
