@@ -80,7 +80,7 @@ def test_preprocessing_expected_cols():
     output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     expected_cols = ['a', 'b', 'c']
     assert all(col in output_train.columns for col in expected_cols)
-    assert all(col in output_test.columns for col in ed_cols)
+    assert all(col in output_test.columns for col in expected_cols)
 
 # Test for output files are generated
 def test_preprocessing_files_generated():
