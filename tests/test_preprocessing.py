@@ -62,8 +62,8 @@ extra_numerical_cols = extra_variables[extra_variables['type'].isin(['Integer', 
 extra_categorical_cols = ['y', 'Target']
 extra_all_cols = extra_numerical_cols + extra_categorical_cols
 
-extra_output_train_path = "./scaled_data_train_expected.csv"
-extra_output_test_path = "./scaled_data_test_expected.csv"
+extra_output_train_path = "./scaled_data_train_extra.csv"
+extra_output_test_path = "./scaled_data_test_extra.csv"
 
 # Test for correct return type
 def test_preprocessing_returns_df():
@@ -80,7 +80,7 @@ def test_preprocessing_expected_cols():
     output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     expected_cols = ['a', 'b', 'c']
     assert all(col in output_train.columns for col in expected_cols)
-    assert all(col in output_test.columns for col in expected_cols)
+    assert all(col in output_test.columns for col in ed_cols)
 
 # Test for output files are generated
 def test_preprocessing_files_generated():
