@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer, make_column_selector
 import pytest
@@ -43,8 +42,8 @@ def test_preprocessing_returns_df():
     preprocessor = preprocessing(train_data, test_data, output_train_path, output_test_path, numerical_cols)
     output_train = pd.DataFrame(preprocessor.transform(train_data), columns=all_cols)
     output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
-    assert isinstance(output_train, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
-    assert isinstance(output_test, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
+    assert isinstance(output_train, pd.DataFrame)
+    assert isinstance(output_test, pd.DataFrame)
 
 # Test for expected columns
 def test_preprocessing_expected_cols():
@@ -62,6 +61,27 @@ def test_preprocessing_files_generated():
     output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     assert os.path.exists(output_train_path)
     assert os.path.exists(output_test_path)
+
+# Test for handling edge case with all categorical features
+def test_preprocessing_all_categorical():
+    all_categorical_data = train_data.copy()
+    all_categorical_data[['a', 'b', 'c']] = all_categorical_data['a'].astype('str')
+    all_categorical_cols = ['a', 'b', 'c']
+
+    preprocessor = preprocessing(all_categorical_data, test_data, output_train_path, output_test_path, all_categorical_cols)
+    output_train = pd.read_csv(output_train_path)
+    output_test = pd.read_csv(output_test_path)
+
+    assert isinstance(output_train, pd.DataFrame)
+    assert isinstance(output_test, pd.DataFrame)
+    assert 'a' in output_train.columns
+    assert 'a' in output_test.columns
+    assert 'b' in output_train.columns
+    assert 'b' in output_test.columns
+    assert 'c' in output_train.columns
+    assert 'c' in output_test.columns
+    assert 'Label' in output_train.columns
+    assert 'Label' in output_test.columns
 
 # Test for invalid input types
 def test_preprocessing_input_types():
