@@ -30,24 +30,34 @@ variables = pd.DataFrame({
         'type': ['Integer', 'Integer', 'Continuous', 'Categorical']
     })
 
+numerical_cols = variables[variables['type'].isin(['Integer', 'Continuous'])]['name'].tolist()
+categorical_cols = ['Label']
+all_cols = numerical_cols + categorical_cols
+
 output_train_path = "./scaled_wine_train.csv"
 output_test_path = "./scaled_wine_test.csv"
 
 # Test for correct return type
 def test_preprocessing_returns_df():
-    output_train, output_test = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
+    preprocessor = preprocessing(train_data, test_data, output_train_path, output_test_path, numerical_cols)
+    output_train = pd.DataFrame(preprocessor.transform(train_data), columns=all_cols)
+    output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     assert isinstance(output_train, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
     assert isinstance(output_test, pd.DataFrame), "preprocessing should return a Pandas DataFrame"
 
 # Test for expected columns
 def test_preprocessing_expected_cols():
-    output_train, output_test = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
+    preprocessor = preprocessing(train_data, test_data, output_train_path, output_test_path, numerical_cols)
+    output_train = pd.DataFrame(preprocessor.transform(train_data), columns=all_cols)
+    output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     expected_cols = ['a', 'b', 'c']
     assert all(col in output_train.columns for col in expected_cols)
     assert all(col in output_test.columns for col in expected_cols)
 
 # Test for output files are generated
 def test_preprocessing_files_generated():
-    output_train, output_test = preprocessing(train_data, test_data, output_train_path, output_test_path, variables)
+    preprocessor = preprocessing(train_data, test_data, output_train_path, output_test_path, numerical_cols)
+    output_train = pd.DataFrame(preprocessor.transform(train_data), columns=all_cols)
+    output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     assert os.path.exists(output_train_path)
     assert os.path.exists(output_test_path)
