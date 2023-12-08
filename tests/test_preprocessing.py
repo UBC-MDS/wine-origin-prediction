@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer, make_column_selector
 import pytest
@@ -61,3 +62,21 @@ def test_preprocessing_files_generated():
     output_test = pd.DataFrame(preprocessor.transform(test_data), columns=all_cols)
     assert os.path.exists(output_train_path)
     assert os.path.exists(output_test_path)
+
+# Test for invalid input types
+def test_preprocessing_input_types():
+    with pytest.raises(ValueError):
+        preprocessing(train_data, test_data, output_train_path, output_test_path, 'a')
+
+# Test for nonexistent output paths
+def test_preprocessing_output_paths_exist(tmpdir):
+    with pytest.raises(OSError):
+        nonexistent_output_train_path = str(tmpdir.join("nonexistent_folder/scaled_wine_train.csv"))
+        preprocessing(train_data, test_data, nonexistent_output_train_path, output_test_path, numerical_cols)
+
+# Test for missing cols
+def test_preprocessing_missing_columns():
+    with pytest.raises(ValueError):
+        missing_train_data = train_data.drop(columns='c')
+        missing_test_data = test_data.drop(columns='c')
+        preprocessing(missing_train_data, missing_test_data, output_train_path, output_test_path, numerical_cols)
