@@ -67,7 +67,7 @@ def test_correct_figax_np4():
     assert len(ax.lines) == 2
 
 # Expected inputs: numpy arrays of length 2
-def test_correct_figax_np4():
+def test_correct_figax_np2():
     fig, ax = accuracy_curve(train_scores_2, cv_scores_2, param_grid_2)
     assert isinstance(fig, plt.Figure)
     assert isinstance(ax, plt.Axes)
@@ -81,7 +81,7 @@ def test_correct_figax_lst6():
     assert len(ax.lines) == 2
 
 # Expected inputs: lists of length 4
-def test_correct_figax_lst6():
+def test_correct_figax_lst4():
     fig, ax = accuracy_curve(train_scores_list[:4], cv_scores_list[:4], param_grid_list[:4])
     assert isinstance(fig, plt.Figure)
     assert isinstance(ax, plt.Axes)
@@ -108,11 +108,15 @@ def test_unequal_input_len():
 
 # Test for correct error handing when length of arrays is
 # NOT greater than 1
-def test_empty_arrays():
+def test_one_empty_array():
     with pytest.raises(ValueError):
         accuracy_curve(train_scores_empty, cv_scores, param_grid)
         accuracy_curve(train_scores, cv_scores, param_grid_empty)
+
+def test_all_empty_arrays():
+    with pytest.raises(ValueError):
         accuracy_curve(train_scores_empty, cv_scores_empty, param_grid_empty)
+
+def test_all_arrays_len1():
+    with pytest.raises(ValueError):
         accuracy_curve(train_scores_1, cv_scores_1, param_grid_1)
-
-
