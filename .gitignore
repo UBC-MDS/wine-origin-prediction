@@ -7,3 +7,6 @@
 # Byte-compiled files 
 **__pycache__/
 *.py[cod]
+
+#Build files 
+report/_build/

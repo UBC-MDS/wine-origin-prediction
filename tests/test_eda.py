@@ -4,9 +4,9 @@ import pytest
 import sys
 import os
 
-# Import the plot_density function
+# Import the plot_density and plot_distribution functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.eda import plot_density
+from src.eda import plot_density, plot_distribution
 
 # Test data
 empty_data = pd.DataFrame([])
@@ -68,3 +68,29 @@ def test_plot_density_with_empty_df():
         chart = plot_density(one_feature_no_observations, feats, target)
     with pytest.raises(ValueError):
         chart = plot_density(empty_data, feats, target)
+
+def test_plot_distribution_returns_chart():
+    chart = plot_distribution(one_feature_two_classes, "target")
+    assert isinstance(chart, alt.Chart), "plot_distribution should return a Altair Chart object"
+
+def test_plot_distribution_chart_has_correct_format():
+    target = "target"
+    chart = plot_distribution(two_feature_three_classes, target)
+    chart_dict = chart.to_dict()
+    assert chart_dict["encoding"]["x"]["type"] == "nominal"
+    assert chart_dict["encoding"]["x"]["field"] == target
+    assert chart_dict["encoding"]["y"]["aggregate"] == "count"
+    assert chart_dict["encoding"]["y"]["type"] == "quantitative"
+    assert chart_dict["mark"]["type"] == "bar"
+
+def test_plot_distribution_with_wrong_target_name():
+    target = "wrong_target"
+    with pytest.raises(KeyError):
+        chart = plot_distribution(two_feature_three_classes, target)
+
+def test_plot_distribution_with_empty_df():
+    target = "target"
+    with pytest.raises(ValueError):
+        chart = plot_distribution(one_feature_no_observations, target)
+    with pytest.raises(ValueError):
+        chart = plot_distribution(empty_data, target)
