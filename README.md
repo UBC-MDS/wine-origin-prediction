@@ -30,10 +30,10 @@ Once docker is set up, the following commands can be used to run the analysis. C
 
 ```
 # Fetch data from the web, save, and split
-python scripts/fetch_split_data.py --output-path='data/processed/'
+python scripts/fetch_split_data.py --output-raw-path='data/raw' --output-processed-path='data/processed/'
 
 # Preprocess data and save preprocessor object
-python scripts/preprocessing.py --train-data ./data/processed/train.csv --test-data ./data/processed/test.csv --variable-data ./data/processed/variables.csv --output-file-path ./data/processed/scaled_wine_train.csv ./data/processed/scaled_wine_test.csv --output-preprocessor ./results/models/preprocessor_model --output-metadata-path ./data/processed/preprocessor_model
+python scripts/preprocessing.py --train-data ./data/processed/train.csv --test-data ./data/processed/test.csv --variable-data ./data/raw/variables.csv --output-file-path ./data/processed/scaled_wine_train.csv ./data/processed/scaled_wine_test.csv --output-preprocessor ./results/models/preprocessor_model --output-metadata-path ./data/processed/preprocessor_model
 
 # Perform EDA and save plots
 python scripts/eda.py --input_path='data/processed/scaled_wine_train.csv' --output_figure_path='results/figures/' --plot_width=150 --plot_height=100
@@ -47,14 +47,18 @@ python scripts/evaluation_test.py --input-test-path='data/processed/test.csv' --
 
 ## Docker Clean Up
 Shut down the container by clicking `Ctrl + C` on your keyboard in the terminal where you launched Docker. Run `docker compose rm` to finish cleaning up.
+=======
+[Contribution guidelines for this project](docs/CONTRIBUTING.md)
+
 
 ## Function Testing
 Tests are located in the `tests` folder. To test a function, run `pytest <file-path>` in the terminal at the root of the project.
 
 
 ## Dependencies
-
 Dependencies are managed using Docker and based on the jupter minimal-notebook image, with exact details available in the Dockerfile. Additionally, the environment details can be found in `environment.yaml`
+=======
+-   Python and packages listed in `environment.yaml` [here](https://github.com/UBC-MDS/wine-origin-prediction/blob/main/environment.yaml)
 
 ## License:
 
