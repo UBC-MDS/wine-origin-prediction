@@ -19,10 +19,6 @@ param_grid = param_grid = {
 
 param_grid_empty = {}
 
-param_grid_invalid = {
-    "logistic--regression__C": np.array([0.01,0.1,1,10,100,1000])
-}
-
 pipe_lr = make_pipeline(
     StandardScaler(), LogisticRegression(max_iter=2000)
 )
