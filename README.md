@@ -73,6 +73,8 @@ python scripts/fit_wine_classifier.py --training-data='data/processed/train.csv'
 python scripts/evaluation_test.py --input-test-path='data/processed/test.csv' --pipeline-from='results/models/wine_pipeline.pickle' --target-col='class' --results-to='results/tables/'
 ```
 
+[Contribution guidelines for this project](docs/CONTRIBUTING.md)
+
 ## Dependencies
 
 Please ensure you have the following dependencies installed:
@@ -81,7 +83,7 @@ Please ensure you have the following dependencies installed:
 
 -   `nb_conda_kernels`
 
--   Python and packages listed in `environment.yaml`
+-   Python and packages listed in `environment.yaml` [here](https://github.com/UBC-MDS/wine-origin-prediction/blob/main/environment.yaml)
 
 ## License:
 
