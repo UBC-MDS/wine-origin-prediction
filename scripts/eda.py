@@ -3,7 +3,7 @@ import os
 import click
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.eda import plot_density
+from src.eda import plot_density, plot_distribution
 
 """
 Usage: python scripts/eda.py --input_path="data/processed/scaled_train_data.csv" --output_path="data/processed"
@@ -27,6 +27,9 @@ def main(input_path, output_figure_path, plot_width, plot_height):
     plt = plot_density(data, data.columns, TARGET, N_COLS, plot_width, plot_height)
 
     plt.save(os.path.join(output_figure_path, "densities_plot_by_class.png"), scale_factor=2.0)
+
+    plt_dist = plot_distribution(data, TARGET)
+    plt_dist.save(os.path.join(output_figure_path, "distribution_by_class.png"), scale_factor=2.0)
 
 if __name__ in '__main__':
     main()

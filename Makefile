@@ -20,7 +20,7 @@ data/raw/variables.csv
 	--output-metadata-path ./data/processed/preprocessor_model
 
 # Perform EDA and save plots
-results/figures/densities_plot_by_class.png : scripts/eda.py \
+results/figures/densities_plot_by_class.png results/figures/distribution_by_class.png : scripts/eda.py \
 data/processed/scaled_wine_train.csv
 	python scripts/eda.py \
 	--input_path='data/processed/scaled_wine_train.csv' \
@@ -55,12 +55,13 @@ report/_toc.yml \
 report/_config.yml \
 results/tables/test_results.csv \
 results/figures/densities_plot_by_class.png \
+results/figures/distribution_by_class.png \
 results/figures/wine_cv_C.png
 	jupyter-book build report
 
 clean:
 	rm -f data/processed/train.csv data/processed/test.csv
-	rm -f results/figures/densities_plot_by_class.png
+	rm -f results/figures/densities_plot_by_class.png results/figures/distribution_by_class.png
 	rm -f data/processed/scaled_wine_train.csv data/processed/scaled_wine_test.csv
 	rm -f data/processed/preprocessor_model.csv
 	rm -f results/models/preprocessor_model.pickle

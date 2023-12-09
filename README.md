@@ -73,6 +73,14 @@ python scripts/fit_wine_classifier.py --training-data='data/processed/train.csv'
 python scripts/evaluation_test.py --input-test-path='data/processed/test.csv' --pipeline-from='results/models/wine_pipeline.pickle' --target-col='class' --results-to='results/tables/'
 ```
 
+# Running the test suite
+
+Open the project in terminal and navigate to the tests folder, then run the following command
+
+```
+pytest
+```
+
 [Contribution guidelines for this project](docs/CONTRIBUTING.md)
 
 ## Dependencies

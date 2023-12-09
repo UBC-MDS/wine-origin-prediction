@@ -1,6 +1,50 @@
 import pandas as pd
 import altair as alt
 
+def plot_distribution(data, target, width=300, height=300):
+    """
+    Plot a histogram of the distribution for target columns
+
+    Creates an Altair plot with bars for each of the distinct classes in target
+    The height is proportional to the number of elements of that class
+
+    Parameters:
+    ----------
+    data : pandas.DataFrame
+        The input DataFrame containing the data to analyze.
+    target : str
+        The name of the column in the DataFrame containing target labels
+
+
+    Returns:
+    -------
+    altair.Chart
+        A Chart plotting the record count for each class
+        - x: The class values
+        - y: The count of records belonging to that class
+
+    Examples:
+    --------
+    >>> import pandas as pd
+    >>> data = pd.read_csv('wine.csv')  # Replace 'wine.csv' with your dataset file
+    >>> result = plot_distribution(data, "class")
+    >>> chart #Display chart
+    """
+    if len(data) == 0:
+        raise ValueError(f"Empty Dataframe, cannot plot data")
+
+    if target not in data.columns:
+        raise KeyError(f"Target columns {target} not found in dataframe columns")
+
+    #Plot the chart for each class
+    chart = alt.Chart(data, width=width, height=height).mark_bar(opacity=0.7).encode(
+        x=alt.X(f'{target}:N'),
+        y=alt.Y('count()'),
+        color=f'{target}:N'
+    )
+
+    return chart
+
 def plot_density(data, cols, target, ncols=-1, width=150, height=100):
     """
     Plot a density plot for all columns in the dataset
