@@ -128,3 +128,11 @@ def test_preprocessing_missing_columns():
         missing_train_data = train_data.drop(columns='c')
         missing_test_data = test_data.drop(columns='c')
         preprocessing(missing_train_data, missing_test_data, output_train_path, output_test_path, numerical_cols)
+
+# Test for empty data
+def test_preprocessing_empty_data():
+    empty_train_data = pd.DataFrame(columns=['a', 'b', 'c', 'Label'])
+    empty_test_data = pd.DataFrame(columns=['a', 'b', 'c', 'Label'])
+
+    with pytest.raises(ValueError):
+        preprocessing(empty_train_data, empty_test_data, output_train_path, output_test_path, numerical_cols)
