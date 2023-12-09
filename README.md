@@ -65,7 +65,7 @@ Tests are located in the `tests` folder. To test a function, run `pytest <file-p
 
 ## Dependencies
 Dependencies are managed using Docker and based on the jupter minimal-notebook image, with exact details available in the Dockerfile. Additionally, the environment details can be found in `environment.yaml`
-=======
+
 -   Python and packages listed in `environment.yaml` [here](https://github.com/UBC-MDS/wine-origin-prediction/blob/main/environment.yaml)
 
 ## License:
