@@ -11,9 +11,9 @@ def accuracy_curve(train_scores, cv_scores, param_grid):
     
     
     Parameters:
-    - train_scores (list or array or pd.Series): Accuracy scores for the training set across the C values specified in the `param_grid`. 
-    - cv_scores (list or array or pd.Series): Accuracy scores for the validation set across the C values specified in the `param_grid`.
-    - param_grid (dict): Parameter grid containing the values of C used in the analysis.
+    - train_scores (list or array or pd.Series): Accuracy scores for the training set across the C values specified in the `param_grid` length should be >= 1. 
+    - cv_scores (list or array or pd.Series): Accuracy scores for the validation set across the C values specified in the `param_grid` length should be >= 1.
+    - param_grid (dict): Parameter grid containing the values of C used in the analysis, length should be >= 1
 
     Returns:
     plot: matpotlib.pyplot.figure
@@ -34,6 +34,9 @@ def accuracy_curve(train_scores, cv_scores, param_grid):
     using `C_search.cv_results_`.
     
     """
+    if len(train_scores) <= 1 or len(cv_scores) <= 1 or len(param_grid) <=1:
+        raise ValueError("Input arrays must have more than one element.")
+    
     # Plotting code
     fig, ax = plt.subplots()
     
