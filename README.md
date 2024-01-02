@@ -6,7 +6,7 @@ Students of UBC MDS cohort 8
 
 ## Project Summary
 
-In this project, we attempt to build a classification model using Logistic Reggression to predict wine origin. Our final classifier performed fairly well on an unseen test data cases, with accuracy rate of 98.15%. Considering the applicability of wine origin prediction, our model can be implemented for business use, providing a faster and more accurate service in classifying wine origin compared to traditional methods that require experts with sufficient knowledge and experience.
+In this project, we attempt to build a classification model using Logistic Regression to predict wine origin. Our final classifier performed fairly well on an unseen test data cases, with accuracy rate of 98.15%. Considering the applicability of wine origin prediction, our model can be implemented for business use, providing a faster and more accurate service in classifying wine origin compared to traditional methods that require experts with sufficient knowledge and experience.
 
 This project employs a data set comprising 13 chemical information from 178 Italian wine samples of three distinct cultivars from the same region. Originating in 1991, the data set was collected and contributed by M. Forina and Stefan Aeberhard. This data set is accessible from the UC Irvine Machine Learning Repository and can be found [here](https://archive.ics.uci.edu/dataset/109/wine).
 
